@@ -112,7 +112,7 @@
                 url = new URL(inputvalue);
                 outurl = {
                     hostname: url.hostname.replace(/\./g , '。').replace(/:/g , '：') ,
-                    path: url.href.slice(url.origin.length).replace(/\./g , '\n.') ,
+                    path: url.href.slice(url.origin.length).replace(/\.(?!$)/g , '\n.').replace(/:(?!$)/g , '\n:') ,
                     href: '',
                 }
                 if (inputlink.value.includes(':/')){

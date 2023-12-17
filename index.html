@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>链接防Q群管家撤回</title>
-    <meta name="keywords" content="q群管家,qqunguanjia,link-anti-qqgj,qqgj,bddjr,半岛的蒟蒻,bandaodejuruo">
+    <meta name="keywords" content="q群管家,撤回链接,防撤回,链接防撤回,链接防Q群管家撤回,qqunguanjia,link-anti-qqgj,qqgj,bddjr,半岛的蒟蒻,bandaodejuruo">
     <meta name="description" content="还在为Q群管家会撤回链接而感到烦恼？快试试这款工具吧！">
     <link rel="icon" href="/icon.webp">
     <style>
@@ -26,6 +26,9 @@
         }
         .example_link {
             color:#006afe;
+        }
+        .example_link_noreplace{
+            color:#e86c00;
         }
         #inputlink {
             font-size: 16px;
@@ -74,20 +77,24 @@
             绕过方案：<br />
             <br />
             1、将域名或ip的 . 替换为 。<br />
+            <span class="example_link_noreplace">baidu.com/s?wd=baidu</span><br />
             <span class="example_link">baidu。com/s?wd=baidu</span><br />
             <br />
             2、如果需要带协议头，将协议头的双斜杠改为单斜杠<br />
+            <span class="example_link_noreplace">https://baidu.com/s?wd=baidu</span><br />
             <span class="example_link">https:/baidu。com/s?wd=baidu</span><br />
             <br />
             3、遇到路径可能被识别为地址的情况，将路径的 . 前面或后面换行<br />
+            <span class="example_link_noreplace">https://baidu.com/s?wd=127.0.0.1</span><br />
             <span class="example_link">https:/baidu。com/s?wd=127.0.0<br />
                 .1</span><br />
             或者<br />
             <span class="example_link">https:/baidu。com/s?wd=127.0.0.<br />
                 1</span><br />
             <br />
-            4、需要发送带有IPv6的链接时，将半角 : 替换成全角 ：<br />
-            <span class="example_link">[：：1]</span><br />
+            4、需要发送IPv6的链接时，将半角 : 替换成全角 ：<br />
+            <span class="example_link_noreplace">http://[::1]/</span><br />
+            <span class="example_link">http://[：：1]/</span><br />
         </p>
         <hr />
         <footer>
@@ -96,49 +103,96 @@
         </footer>
     </div></div>
     <script>
-        inputlink.value = location.href;
+        // 默认示范链接
+        inputlink.value = 'https://link-anti-qqgj.bddjr.com/index.html?a=114:514:1919::810&b=xxx:xxx::xxx&c=2400:3200:baba::1#1.1.1.1.1.1.1.111.111.111.111.11111.111.111.111.111.11111.111.111.111.111.1.1.2.3.1.1.5.1100.111.10000.1111.25.11.22.34.55.5.5.5.5.11111.1.2.3.4.5.6.22222.5.5.5.5.5.5'; 
+        // 监视输入框的输入
         inputlink.addEventListener('input', (function () {
-            //console.log('outputlink input');
+            console.log('outputlink input');
             try {
                 outputlink.value = '';
-                inputvalue = inputlink.value;
-                if (!inputvalue.includes('://')){
-                    if (inputvalue.includes(':/')){
+                // 除首尾空白符
+                let inputlink_trim = inputlink.value.trim()
+                let inputvalue = inputlink_trim;
+                // 检测协议头
+                if (!/:(\/|\\){2}/.test(inputvalue)) {
+                    if (/:(\/|\\){1}/.test(inputvalue)){
                         inputvalue = inputvalue.replace(':/', '://');
                     }else{
                         inputvalue = 'http://' + inputvalue;
                     }
                 }
-                url = new URL(inputvalue);
-                outurl = {
-                    hostname: url.hostname.replace(/\./g , '。').replace(/:/g , '：') ,
-                    path: url.href.slice(url.origin.length).replace(/\.(?!$)/g , '\n.').replace(/:(?!$)/g , '\n:') ,
-                    href: '',
+                // 创建URL
+                let url = new URL(inputvalue);
+                // 主机名转换后不能包含% 这样可以把含有空格的踢出去
+                if (url.host.includes('%')) throw "url host includes '%'";
+                // 输出用的URL
+                let outurl = {
+                    hostname: url.hostname
+                        .replace(/\./g , '。') // 处理域名或IPv4
+                        .replace(/:/g , '：') // 处理IPv6
+                    ,path: url.href.slice(url.origin.length)
+                        .replace(/\.(?=([a-zA-Z]{2}))/g , '\n.') // 处理路径里可能被识别为域名后缀的内容
+                        //.replace(/(?<=([0-9]{1,3}\.){2}([0-9]{1,3}))\.(?=[0-9]{1,3})/g , '\n.') // 处理路径里可能被识别为IPv4的内容
+                        .replace(/(?<=(:|[a-fA-F0-9])):(?=([a-fA-F0-9]))/g , '\n:') // 处理路径里可能被识别为IPv6的内容
+                    ,href: ''
                 }
-                if (inputlink.value.includes(':/')){
+                // 处理路径里可能被识别为IPv4的内容
+                let re = /([0-9]{1,3})(\.[0-9]{1,3}){3}/g ;
+                while (true) {
+                    let i = re.exec(outurl.path); // 匹配
+                    //console.log(i);
+                    if (!i) break; // 没有任何匹配则终止循环
+                    let istr = i[0].toString(); // 匹配的内容转字符串
+                    let do_it = true; // 是否进行替换操作
+                    // 检查匹配内容是否符合IPv4数字范围
+                    let arr = istr.split('.');
+                    for (let j of arr){
+                        j = +j;
+                        if(j > 255 || !Number.isSafeInteger(j)){
+                            do_it = false;
+                            break
+                        }
+                    }
+                    //console.log(re.lastIndex);
+                    if (do_it) { //确定替换
+                        // 在最后一个点前面加上换行符
+                        outurl.path = outurl.path.replace(istr, arr.slice(0,3).join('.') +'\n.'+ arr[3]) ;
+                    } else { //无需替换
+                        // 将光标移动到第一块数字结束的位置，防止漏网之鱼
+                        re.lastIndex -= (i[0].length - i[1].length) ;
+                    }
+                }
+                // 如果原来有协议头，那么加上协议头
+                if (/:(\/|\\)+/.test(inputlink_trim)) {
                     outurl.href = url.protocol + '/';
                 }
                 outurl.href += outurl.hostname;
+                // 如果有端口号那么加上端口号
                 if (url.port){
                     outurl.href += ':' + url.port;
                 }
-                outurl.href += outurl.path;
+                // 如果输入的时候不含路径，跳过路径添加
+                if (!(outurl.path==='/' && !/(\/|\\)$/.test(inputvalue))) {
+                    outurl.href += outurl.path;
+                }
+                // 生效
                 outputlink.value = outurl.href;
             }catch(e){
                 console.error(e);
                 outputlink.value = '生成失败';
             }
         }));
+        // 触发输入框的输入
         inputlink.dispatchEvent(new Event('input'));
+        // 鼠标选择输出框时自动全选
         outputlink.addEventListener('focus', function(){
             //console.log('outputlink click');
-            if (!outputlink.activeElement){
-                outputlink.select();
-            }
+            outputlink.select();
         });
+        // 输入与输出框的宽度误差矫正
         inputlink.style.setProperty('--p', (inputlink.offsetWidth - divmain2.clientWidth)+'px');
         outputlink.style.setProperty('--p', (outputlink.offsetWidth - divmain2.clientWidth)+'px');
-        dispatchEvent(new Event('resize'));
+
         console.log('js done');
     </script>
 </body>

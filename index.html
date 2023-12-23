@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>链接防Q群管家撤回</title>
-    <meta name="keywords" content="q群管家,撤回链接,防撤回,链接防撤回,链接防q群管家撤回,链接防q群管家,q群管家撤回,q群管家撤回链接,q群管家撤链接,防止q群管家撤回,防止q群管家撤回链接,怎么防止q群管家撤回,怎么防止q群管家撤回链接,如何防止q群管家撤回,如何防止q群管家撤回链接,q群管家撤回链接怎么办,q群管家会撤回链接,q群管家会撤回链接怎么办,链接被q群管家撤回,链接被q群管家撤回怎么办,防止链接被q群管家撤回,怎么防止链接被q群管家撤回,如何防止链接被q群管家撤回,qqunguanjia,link-anti-qqgj,qqgj,bddjr,半岛的蒟蒻,bandaodejuruo">
+    <meta name="keywords" content="q群管家,撤回链接,防撤回,链接防撤回,链接防q群管家撤回,链接防q群管家,q群管家撤回,q群管家撤回链接,q群管家撤链接,防止q群管家撤回,防止q群管家撤回链接,怎么防止q群管家撤回,怎么防止q群管家撤回链接,如何防止q群管家撤回,如何防止q群管家撤回链接,q群管家撤回链接怎么办,q群管家会撤回链接,q群管家会撤回链接怎么办,链接被q群管家撤回,链接被q群管家撤回怎么办,防止链接被q群管家撤回,怎么防止链接被q群管家撤回,如何防止链接被q群管家撤回,链接防管家,链接防管家撤回,qqunguanjia,link-anti-qqgj,qqgj,bddjr,半岛的蒟蒻,bandaodejuruo">
     <meta name="description" content="还在为Q群管家会撤回链接而感到烦恼？快试试这款工具吧！">
     <link rel="icon" href="./icon.webp">
     <style>
@@ -30,21 +30,20 @@
         .example_link_noreplace{
             color:#e86c00;
         }
-        #inputlink {
-            font-size: 16px;
+        .width_need_js {
             --p: 0px;
             width: calc(100% - var(--p));
-            /*width: 100%;*/
+            font-size: 16px;
             margin: 0;
         }
-        #outputlink {
-            font-size: 16px;
-            height: 250px;
-            --p: 0px;
-            width: calc(100% - var(--p));
-            /*width: 100%;*/
-            margin: 0;
+        textarea {
             resize: vertical;
+        }
+        #outputlink {
+            height: 330px;
+        }
+        #sharethislink {
+            height: 104px;
         }
         .disable_nodrop:disabled {
             cursor: no-drop;
@@ -71,10 +70,15 @@
         <p>还在为Q群管家会撤回链接而感到烦恼？快试试这款工具吧！</p>
         <noscript><h1 style="color:red;">请允许运行JavaScript以使用本工具。</h1></noscript>
         <p style="margin-bottom: 4px;">输入正常的链接：</p>
-        <input type="text" id="inputlink" class="disable_nodrop" disabled/>
+        <input type="text" id="inputlink" class="width_need_js disable_nodrop" disabled/>
+        <p style="margin-bottom: 4px;">介绍：</p>
+        <input type="text" id="inputdescription" class="width_need_js disable_nodrop" disabled/>
         <p style="margin-bottom: 4px;">生成防撤回链接：</p>
-        <textarea type="text" id="outputlink" class="disable_nodrop" readonly autocomplete="off" disabled></textarea>
+        <textarea type="text" id="outputlink" class="width_need_js disable_nodrop" readonly autocomplete="off" disabled></textarea>
         <p>链接复制后粘贴到浏览器即可正常访问。</p>
+        <hr />
+        <p style="margin-bottom: 4px;">分享该工具：</p>
+        <textarea type="text" id="sharethislink" class="width_need_js disable_nodrop" readonly autocomplete="off" disabled></textarea>
         <hr />
         <p style="text-align: left;">
             绕过方案：<br />
@@ -108,6 +112,12 @@
     <script>
         outputlink.value = "请稍候";
     </script>
+    <script>
+        // 输入与输出框的宽度误差矫正
+        for (let i of document.getElementsByClassName("width_need_js")) {
+            i.style.setProperty('--p', (i.offsetWidth - divmain2.clientWidth)+'px');
+        }
+    </script>
     <script src="./link_anti_qqgj.js"></script>
     <script>
         if (!window.link_anti_qqgj) {
@@ -118,31 +128,35 @@
         if (window.link_anti_qqgj){
             // 默认示范链接
             inputlink.value = 'https://link-anti-qqgj.bddjr.com/index.html#?a=114:514:1919::810&b=xxx:xxx::xxx&c=2400:3200:baba::1&d=FF01:0:0:0:0FFF01::0:0:1101:FFF01:FFF01:0:0:0:FFF01:0FFF01::0:0:F:FF01:0:0:0:0:0:0:1101&e=FF01:0:0:0:0:0:0:1101&f=111.111.111.111.1112.111.111.111.444.444.444.444.11.1.1.1.256.256.256.256.1.1.1.1.123.1234.567.890'; 
-            // 监视输入框的输入
-            inputlink.addEventListener('input', function () {
+            inputdescription.value = '这是一个防Q群管家撤回的链接';
+            // 启用输入框
+            for (let i of document.getElementsByClassName("width_need_js")) {
+                i.disabled = false;
+            }
+            // 函数，用于生成
+            function outputlink_generator(){
                 console.log('outputlink input');
                 try {
-                    outputlink.value = link_anti_qqgj(inputlink.value);
+                    outputlink.value = link_anti_qqgj(inputlink.value, inputdescription.value);
                 }catch(e){
                     console.error(e);
                     outputlink.value = '生成失败';
                 }
-            });
-            inputlink.disabled = false;
+            }
+            // 监视输入框的输入
+            inputlink.addEventListener('input', outputlink_generator);
+            inputdescription.addEventListener('input', outputlink_generator);
             // 触发输入框的输入
             inputlink.dispatchEvent(new Event('input'));
-            outputlink.disabled = false;
+            // 分享该工具
+            sharethislink.value = link_anti_qqgj("https://link-anti-qqgj.bddjr.com", '链接防Q群管家撤回');
             // 鼠标选择输出框时自动全选
-            outputlink.addEventListener('focus', function(){
-                //console.log('outputlink click');
-                outputlink.select();
-            });
+            for (let i of document.getElementsByTagName("textarea")){
+                i.addEventListener('focus', function(){
+                    i.select();
+                });
+            }
         }
-    </script>
-    <script>
-        // 输入与输出框的宽度误差矫正
-        inputlink.style.setProperty('--p', (inputlink.offsetWidth - divmain2.clientWidth)+'px');
-        outputlink.style.setProperty('--p', (outputlink.offsetWidth - divmain2.clientWidth)+'px');
     </script>
 </body>
 

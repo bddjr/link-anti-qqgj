@@ -40,10 +40,10 @@
             resize: vertical;
         }
         #outputlink {
-            height: 330px;
+            height: 350px;
         }
         #sharethislink {
-            height: 104px;
+            height: 130px;
         }
         .disable_nodrop:disabled {
             cursor: no-drop;
@@ -71,13 +71,21 @@
         <noscript><h1 style="color:red;">请允许运行JavaScript以使用本工具。</h1></noscript>
         <p style="margin-bottom: 4px;">输入正常的链接：</p>
         <input type="text" id="inputlink" class="width_need_js disable_nodrop" disabled/>
-        <p style="margin-bottom: 4px;">介绍：</p>
+        <p>
+            <input type="checkbox" id="checkbox_need_description" disabled/>
+            <label for="checkbox_need_description">插入介绍（FireFox浏览器访问会警告）</label>
+        </p>
+        <p style="margin-bottom: 4px;">介绍标题：</p>
         <input type="text" id="inputdescription" class="width_need_js disable_nodrop" disabled/>
         <p style="margin-bottom: 4px;">生成防撤回链接：</p>
         <textarea type="text" id="outputlink" class="width_need_js disable_nodrop" readonly autocomplete="off" disabled></textarea>
         <p>链接复制后粘贴到浏览器即可正常访问。</p>
         <hr />
         <p style="margin-bottom: 4px;">分享该工具：</p>
+        <p style="margin: 6px 0;">
+            <input type="checkbox" id="sharethislink_checkbox_need_description" disabled/>
+            <label for="sharethislink_checkbox_need_description">插入介绍（FireFox浏览器访问会警告）</label>
+        </p>
         <textarea type="text" id="sharethislink" class="width_need_js disable_nodrop" readonly autocomplete="off" disabled></textarea>
         <hr />
         <p style="text-align: left;">
@@ -133,11 +141,13 @@
             for (let i of document.getElementsByClassName("width_need_js")) {
                 i.disabled = false;
             }
+            checkbox_need_description.disabled = false;
             // 函数，用于生成
             function outputlink_generator(){
-                console.log('outputlink input');
+                //console.log('outputlink input');
+                inputdescription.disabled = !checkbox_need_description.checked;
                 try {
-                    outputlink.value = link_anti_qqgj(inputlink.value, inputdescription.value);
+                    outputlink.value = link_anti_qqgj(inputlink.value, checkbox_need_description.checked, inputdescription.value);
                 }catch(e){
                     console.error(e);
                     outputlink.value = '生成失败';
@@ -146,10 +156,16 @@
             // 监视输入框的输入
             inputlink.addEventListener('input', outputlink_generator);
             inputdescription.addEventListener('input', outputlink_generator);
-            // 触发输入框的输入
-            inputlink.dispatchEvent(new Event('input'));
+            checkbox_need_description.addEventListener('click', outputlink_generator);
+            // 触发生成
+            outputlink_generator();
             // 分享该工具
-            sharethislink.value = link_anti_qqgj("https://link-anti-qqgj.bddjr.com", '链接防Q群管家撤回');
+            sharethislink_checkbox_need_description.disabled = false;
+            function sharethislink_generator(){
+                sharethislink.value = link_anti_qqgj("https://link-anti-qqgj.bddjr.com", sharethislink_checkbox_need_description.checked, '链接防Q群管家撤回');
+            }
+            sharethislink_checkbox_need_description.addEventListener('click', sharethislink_generator);
+            sharethislink_generator();
             // 鼠标选择输出框时自动全选
             for (let i of document.getElementsByTagName("textarea")){
                 i.addEventListener('focus', function(){

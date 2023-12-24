@@ -1,10 +1,11 @@
 /**
  * @param {string} inputvalue
+ * @param {boolean} need_description 
  * @param {string} description
  * @returns {string}
  */
-function link_anti_qqgj(inputvalue, description){
-    console.log('link_anti_qqgj');
+function link_anti_qqgj(inputvalue, need_description, description=''){
+    //console.log('link_anti_qqgj');
     // 除首尾空白符
     inputvalue = inputvalue.trim()
     const description_trim = description.trim();
@@ -40,16 +41,23 @@ function link_anti_qqgj(inputvalue, description){
         outurl.href = outurl.protocol;
     }
     // 插入介绍
-    outurl.href += "【复制后在浏览器粘贴访问】\n";
-    if (description_trim) {
-        outurl.href += "\n" + description + "\n";
+    if (need_description) {
+        if (outurl.protocol) outurl.href += "\n@\n   ";
+        if (description_trim) {
+            outurl.href += "" + description + "\n";
+            if (outurl.protocol) outurl.href += "   ";
+        }
+        outurl.href += "【复制后在浏览器粘贴访问】\n@\n";
     }
-    outurl.href += "——————\n@";
     // 主机名
     outurl.href += outurl.hostname;
     // 如果有端口号那么加上端口号
     if (url.port){
         outurl.href += ':' + url.port;
+    }
+    // 输入时没路径，且不需要插入介绍，跳过添加路径
+    if (!need_description && outurl.path === '/' && !/[/\\]$/.test(inputvalue)){
+        return outurl.href;
     }
     // 添加路径
     {

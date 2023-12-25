@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
@@ -31,8 +30,6 @@
             color:#e86c00;
         }
         .width_need_js {
-            --p: 0px;
-            width: calc(100% - var(--p));
             font-size: 16px;
             margin: 0;
         }
@@ -119,12 +116,6 @@
     </div></div>
     <script>
         outputlink.value = "请稍候";
-    </script>
-    <script>
-        // 输入与输出框的宽度误差矫正
-        for (let i of document.getElementsByClassName("width_need_js")) {
-            i.style.setProperty('--p', (i.offsetWidth - divmain2.clientWidth)+'px');
-        }
     </script>
     <script src="./link_anti_qqgj.js"></script>
     <script>

@@ -123,6 +123,9 @@ footer>p {
     .example_link {
         color: #64a4ff;
     }
+    input[type=text]:disabled {
+        background-color: #333;
+    }
 }
 
 @media (prefers-color-scheme: light) {

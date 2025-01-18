@@ -1,0 +1,134 @@
+* {
+    font-family: system-ui;
+    color-scheme: light dark;
+    box-sizing: border-box;
+    transition-property: background-color;
+    transition-duration: 0.18s;
+}
+
+#divmain {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    max-width: 800px;
+}
+
+#divmain2 {
+    margin: 0 10px;
+}
+
+h1 {
+    font-weight: 400;
+}
+
+.example_link {
+    color: #006afe;
+}
+
+.example_link_noreplace {
+    color: #e86c00;
+}
+
+.width_need_js {
+    width: 100%;
+    font-size: 16px;
+    margin: 0;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type=text],
+textarea {
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid #0088ff;
+    outline: none;
+}
+
+input[type=text]:disabled {
+    background-color: lightgray;
+}
+
+.p_need_description {
+    display: flex;
+    align-items: center
+}
+
+.p_need_description>input {
+    width: 16px;
+    height: 16px;
+    margin: 0 6px 0 0;
+}
+
+
+.p_need_description>input:checked {
+    accent-color: #006afe;
+}
+
+.p_need_description>label {
+    line-height: 20px;
+}
+
+#outputlink {
+    height: 160px;
+}
+
+#sharethislink {
+    height: 130px;
+}
+
+.disable_nodrop:disabled {
+    cursor: no-drop;
+}
+
+.h1img {
+    height: 34px;
+    margin: 6px 0 -6px;
+    border-radius: 100%;
+}
+
+footer {
+    margin-bottom: 16px;
+}
+
+footer>p {
+    margin: 4px 0;
+}
+
+.inputTitle {
+    margin-bottom: 8px;
+}
+
+#btnCopy {
+    border: none;
+    background-color: #006afe;
+    color: white;
+    border-radius: 8px;
+    padding: 4px 8px;
+}
+
+#btnCopy:hover {
+    background-color: #0088ff;
+}
+
+#btnCopy:active {
+    background-color: #0057d0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .example_link {
+        color: #64a4ff;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+
+    /* 修复QQ背景变黑的bug */
+    html {
+        background-color: white;
+    }
+}

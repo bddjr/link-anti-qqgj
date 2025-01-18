@@ -1,177 +1,78 @@
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>链接防Q群管家撤回</title>
-    <meta name="keywords" content="q群管家,撤回链接,防撤回,链接防撤回,链接防q群管家撤回,链接防q群管家,q群管家撤回,q群管家撤回链接,q群管家撤链接,防止q群管家撤回,防止q群管家撤回链接,怎么防止q群管家撤回,怎么防止q群管家撤回链接,如何防止q群管家撤回,如何防止q群管家撤回链接,q群管家撤回链接怎么办,q群管家会撤回链接,q群管家会撤回链接怎么办,链接被q群管家撤回,链接被q群管家撤回怎么办,防止链接被q群管家撤回,怎么防止链接被q群管家撤回,如何防止链接被q群管家撤回,链接防管家,链接防管家撤回,qqunguanjia,link-anti-qqgj,qqgj,bddjr,半岛的蒟蒻,bandaodejuruo">
+    <meta name="keywords"
+        content="q群管家,撤回链接,防撤回,链接防撤回,链接防q群管家撤回,链接防q群管家,q群管家撤回,q群管家撤回链接,q群管家撤链接,防止q群管家撤回,防止q群管家撤回链接,怎么防止q群管家撤回,怎么防止q群管家撤回链接,如何防止q群管家撤回,如何防止q群管家撤回链接,q群管家撤回链接怎么办,q群管家会撤回链接,q群管家会撤回链接怎么办,链接被q群管家撤回,链接被q群管家撤回怎么办,防止链接被q群管家撤回,怎么防止链接被q群管家撤回,如何防止链接被q群管家撤回,链接防管家,链接防管家撤回,qqunguanjia,link-anti-qqgj,qqgj,bddjr,半岛的蒟蒻,bandaodejuruo">
     <meta name="description" content="还在为Q群管家会撤回链接而感到烦恼？快试试这款工具吧！">
-    <link rel="icon" href="./icon.webp">
-    <style>
-        *{
-            font-family: system-ui;
-            color-scheme: light dark;
-        }
-        #divmain {
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            margin: auto;
-            max-width: 800px;
-        }
-        #divmain2 {
-            margin: 0 10px;
-        }
-        .example_link {
-            color:#006afe;
-        }
-        .example_link_noreplace{
-            color:#e86c00;
-        }
-        .width_need_js {
-            width: 100%;
-            font-size: 16px;
-            margin: 0;
-        }
-        textarea {
-            resize: vertical;
-        }
-        #outputlink {
-            height: 350px;
-        }
-        #sharethislink {
-            height: 130px;
-        }
-        .disable_nodrop:disabled {
-            cursor: no-drop;
-        }
-        .h1img {
-            height: 34px;
-            margin: 6px 0 -6px;
-            border-radius: 100%;
-        }
-        footer > p{
-            margin: 4px 0;
-        }
-        @media (prefers-color-scheme: dark){
-            .example_link{
-                color:#64a4ff;
-            }
-        }
-        @media (prefers-color-scheme: light){
-            /* 尝试修复QQ背景变黑的bug */
-            html{
-                background-color: white;
-            }
-        }
-    </style>
+
+    <link rel="icon" href="icon.webp">
+    <link rel="modulepreload" href="link_anti_qqgj.js">
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <div id="divmain"><div id="divmain2">
-        <h1><img class="h1img" src="/icon.webp" alt=""/> 链接防Q群管家撤回</h1>
-        <p>还在为Q群管家会撤回链接而感到烦恼？快试试这款工具吧！</p>
-        <noscript><h1 style="color:red;">请允许运行JavaScript以使用本工具。</h1></noscript>
-        <p style="margin-bottom: 4px;">输入正常的链接：</p>
-        <input type="text" id="inputlink" class="width_need_js disable_nodrop" disabled/>
-        <p>
-            <input type="checkbox" id="checkbox_need_description" disabled/>
-            <label for="checkbox_need_description">插入介绍（FireFox浏览器访问会警告）</label>
-        </p>
-        <p style="margin-bottom: 4px;">介绍标题：</p>
-        <input type="text" id="inputdescription" class="width_need_js disable_nodrop" disabled/>
-        <p style="margin-bottom: 4px;">生成防撤回链接：</p>
-        <textarea type="text" id="outputlink" class="width_need_js disable_nodrop" readonly autocomplete="off" disabled></textarea>
-        <p>链接复制后粘贴到浏览器即可正常访问。</p>
-        <hr />
-        <p style="margin-bottom: 4px;">分享该工具：</p>
-        <p style="margin: 6px 0;">
-            <input type="checkbox" id="sharethislink_checkbox_need_description" disabled/>
-            <label for="sharethislink_checkbox_need_description">插入介绍（FireFox浏览器访问会警告）</label>
-        </p>
-        <textarea type="text" id="sharethislink" class="width_need_js disable_nodrop" readonly autocomplete="off" disabled></textarea>
-        <hr />
-        <p style="text-align: left;">
-            绕过方案：<br />
-            <br />
-            1、将域名或ip的 . 替换为 。<br />
-            <span class="example_link_noreplace">baidu.com/s?wd=baidu</span><br />
-            <span class="example_link">baidu。com/s?wd=baidu</span><br />
-            <br />
-            2、如果需要带协议头，将协议头的双斜杠改为单斜杠<br />
-            <span class="example_link_noreplace">https://baidu.com/s?wd=baidu</span><br />
-            <span class="example_link">https:/baidu。com/s?wd=baidu</span><br />
-            <br />
-            3、遇到路径可能被识别为地址的情况，将路径的 . 或 : 的前面或后面换行<br />
-            <span class="example_link_noreplace">https://baidu.com/s?wd=127.0.0.1</span><br />
-            <span class="example_link">https:/baidu。com/s?wd=127.0.0<br />
-                .1</span><br />
-            或者<br />
-            <span class="example_link">https:/baidu。com/s?wd=127.0.0.<br />
-                1</span><br />
-            <br />
-            4、需要发送IPv6的链接时，将半角 : 替换成全角 ：<br />
-            <span class="example_link_noreplace">http://[::1]/</span><br />
-            <span class="example_link">http://[：：1]/</span><br />
-        </p>
-        <hr />
-        <footer>
-            <p>源码仓库：<a href="https://github.com/bddjr/link-anti-qqgj" target="_blank" rel="noopener">link-anti-qqgj</a></p>
-            <p>Made by <a href="https://bddjr.cn" target="_blank" rel="noopener">bddjr</a></p>
-        </footer>
-    </div></div>
-    <script>
-        outputlink.value = "请稍候";
-    </script>
-    <script src="./link_anti_qqgj.js"></script>
-    <script>
-        if (!window.link_anti_qqgj) {
-            outputlink.value = "核心加载失败，请刷新网页或更换浏览器";
-        }
-    </script>
-    <script>
-        if (window.link_anti_qqgj){
-            // 默认示范链接
-            inputlink.value = 'https://link-anti-qqgj.bddjr.com/index.html#?a=114:514:1919::810&b=xxx:xxx::xxx&c=2400:3200:baba::1&d=FF01:0:0:0:0FFF01::0:0:1101:FFF01:FFF01:0:0:0:FFF01:0FFF01::0:0:F:FF01:0:0:0:0:0:0:1101&e=FF01:0:0:0:0:0:0:1101&f=111.111.111.111.1112.111.111.111.444.444.444.444.11.1.1.1.256.256.256.256.1.1.1.1.123.1234.567.890'; 
-            inputdescription.value = '这是一个防Q群管家撤回的链接';
-            // 启用输入框
-            for (let i of document.getElementsByClassName("width_need_js")) {
-                i.disabled = false;
-            }
-            checkbox_need_description.disabled = false;
-            // 函数，用于生成
-            function outputlink_generator(){
-                //console.log('outputlink input');
-                inputdescription.disabled = !checkbox_need_description.checked;
-                try {
-                    outputlink.value = link_anti_qqgj(inputlink.value, checkbox_need_description.checked, inputdescription.value);
-                }catch(e){
-                    console.error(e);
-                    outputlink.value = '生成失败';
-                }
-            }
-            // 监视输入框的输入
-            inputlink.addEventListener('input', outputlink_generator);
-            inputdescription.addEventListener('input', outputlink_generator);
-            checkbox_need_description.addEventListener('click', outputlink_generator);
-            // 触发生成
-            outputlink_generator();
-            // 分享该工具
-            sharethislink_checkbox_need_description.disabled = false;
-            function sharethislink_generator(){
-                sharethislink.value = link_anti_qqgj("https://link-anti-qqgj.bddjr.com", sharethislink_checkbox_need_description.checked, '链接防Q群管家撤回');
-            }
-            sharethislink_checkbox_need_description.addEventListener('click', sharethislink_generator);
-            sharethislink_generator();
-            // 鼠标选择输出框时自动全选
-            for (let i of document.getElementsByTagName("textarea")){
-                i.addEventListener('focus', function(){
-                    i.select();
-                });
-            }
-        }
-    </script>
+    <div id="divmain">
+        <div id="divmain2">
+            <h1><img class="h1img" src="icon.webp" alt="" /> 链接防Q群管家撤回</h1>
+            <p>还在为Q群管家会撤回链接而感到烦恼？快试试这款工具吧！</p>
+
+            <hr />
+
+            <p class="inputTitle">输入正常的链接：</p>
+            <input type="text" id="inputlink" class="width_need_js disable_nodrop"
+                value="https://bddjr.github.io/link-anti-qqgj/" />
+
+            <p class="p_need_description">
+                <input type="checkbox" id="checkbox_need_description" />
+                <label for="checkbox_need_description">插入介绍</label>
+            </p>
+
+            <p class="inputTitle">介绍标题：</p>
+            <input type="text" id="inputdescription" class="width_need_js disable_nodrop" value="这是一个防Q群管家撤回的链接"
+                disabled />
+
+            <p class="inputTitle">生成防撤回链接：<button id="btnCopy">复制</button></p>
+            <textarea type="text" id="outputlink" class="width_need_js disable_nodrop" readonly
+                autocomplete="off"></textarea>
+            <p>链接复制后粘贴到浏览器即可正常访问。</p>
+
+            <hr />
+
+            <p style="text-align: left;">
+                绕过方案：<br />
+                <br />
+                1、将域名或ip的 . 替换为 。<br />
+                <span class="example_link_noreplace">baidu.com/s?wd=baidu</span><br />
+                <span class="example_link">baidu。com/s?wd=baidu</span><br />
+                <br />
+                2、如果需要带协议头，将协议头的双斜杠改为单斜杠<br />
+                <span class="example_link_noreplace">https://baidu.com/s?wd=baidu</span><br />
+                <span class="example_link">https:/baidu。com/s?wd=baidu</span><br />
+                <br />
+                3、遇到路径可能被识别为地址的情况，将路径的 . 或 : 的前面或后面换行<br />
+                <span class="example_link_noreplace">https://baidu.com/s?wd=127.0.0.1</span><br />
+                <span class="example_link">https:/baidu。com/s?wd=127.0.0<br />
+                    .1</span><br />
+                或者<br />
+                <span class="example_link">https:/baidu。com/s?wd=127.0.0.<br />
+                    1</span><br />
+                <br />
+                4、需要发送IPv6的链接时，将半角 : 替换成全角 ：<br />
+                <span class="example_link_noreplace">http://[::1]/</span><br />
+                <span class="example_link">http://[：：1]/</span><br />
+            </p>
+            <hr />
+            <footer>
+                <p>源码：<a href="https://github.com/bddjr/link-anti-qqgj" target="_blank"
+                        rel="noopener">https://github.com/bddjr/link-anti-qqgj</a></p>
+            </footer>
+        </div>
+    </div>
 </body>
 
 </html>

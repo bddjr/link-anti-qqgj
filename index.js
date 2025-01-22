@@ -29,9 +29,9 @@ generate();
 self.outputlink.addEventListener('focus', () => self.outputlink.select())
 
 // 复制按钮
-self.btnCopy.addEventListener("click", () => {
+self.btnCopy.addEventListener("click", async () => {
     try {
-        navigator.clipboard.writeText(self.outputlink.value)
+        await navigator.clipboard.writeText(self.outputlink.value)
     } catch (e) {
         console.error(e)
         alert("复制失败！\n" + e)
